@@ -1,11 +1,19 @@
 import express, { Express } from "express";
 import Routes from "./routes/routes";
+import helmet from "helmet";
+import cors from "cors";
 
 class Server {
   private app: Express;
 
   constructor() {
     this.app = express();
+  }
+
+  private initMiddlewares() {
+    this.app.use(cors());
+    this.app.use(helmet());
+    this.app.use(express.json());
   }
 
   private initRoutes() {
@@ -19,6 +27,7 @@ class Server {
   }
 
   public start() {
+    this.initMiddlewares();
     this.initRoutes();
     this.listen();
   }
